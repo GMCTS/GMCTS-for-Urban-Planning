@@ -25,7 +25,7 @@ The "StepGoal.exe" "Instruction for use.pdf" and "Data" can be downloaded for re
 
 ## Hardware Requirements
 
-The demo `G-MCTS for urban planning` softwore requires only a standard computer with enough RAM to support the operations defined by a user. For minimal performance, this will be a computer with about 1 GB of RAM. For optimal performance, we recommend a computer with the following specs:
+The demo "StepGoal" softwore requires only a standard computer with enough RAM to support the operations defined by a user. For minimal performance, this will be a computer with about 1 GB of RAM. For optimal performance, we recommend a computer with the following specs:
 
 RAM: 16+ GB  
 CPU: 4+ cores, 3.3+ GHz/core
@@ -38,8 +38,8 @@ This package is supported for *Windows* operating systems.
 
 # Installation Guide
 
-The demo `G-MCTS for urban planning` software is an EXE softwore run directly without need to install on a computer.
+The demo "StepGoal" software is an EXE that run directly on a computer without need to install.
 
 # Instructions for Use
 
-Please see the help file: Instruction for use.pdf
+Please see the help file "Instruction for use.pdf".
