@@ -16,8 +16,9 @@ The development of an artificial intelligence agent with the ability to integrat
 
 - StepGoal.exe: the demo software to find the best solution with strategies
 - Instruction for use.pdf: how to run the software using the test data
-- Dl1.cpp: the main code of the G-MCTS for urban planning
 - Data: package data for tests and corresponding results
+- DL1.cpp: the main code of the G-MCTS for urban planning
+The "StepGoal.exe" "Instruction for use.pdf" and "Data" can be downloaded for Reproduction instruction. The DL1 can be downloaded as a main framework or a search function for further research.
 
 # System Requirements
 
