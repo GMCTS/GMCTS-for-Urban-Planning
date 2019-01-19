@@ -27,7 +27,7 @@ The "StepGoal.exe" "Instruction for use.pdf" and "Data" can be downloaded for re
 
 The demo "StepGoal" softwore requires only a standard computer with enough RAM to support the operations defined by a user. For minimal performance, this will be a computer with about 1 GB of RAM. For optimal performance, we recommend a computer with the following specs:
 
-RAM: 16+ GB  
+RAM: 8+ GB  
 CPU: 4+ cores, 3.3+ GHz/core
 
 ## Software Requirements
