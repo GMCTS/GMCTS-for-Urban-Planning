@@ -14,7 +14,7 @@ The development of an artificial intelligence agent with the ability to integrat
 
 ## Contents
 
-- StepGoal.exe: the demo software to find the best solution with strategies
+- GMCTS-UrbanP.exe: the demo software to find the best solution with strategies
 - Instruction for use.pdf: how to run the software using the test data
 - Data: package data for tests and corresponding results
 - DL1.cpp: the main code of the G-MCTS for urban planning
