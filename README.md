@@ -15,7 +15,7 @@ The development of an artificial intelligence agent with the ability to integrat
 ## Contents
 
 - [GMCTS-UrbanP.exe](https://github.com/GMCTS/GMCTS-for-Urban-Planning/blob/master/GMCTS-UrbanP.exe): the demo software to find the best solution with strategies
-- Instruction for use.pdf: how to run the software using the test data
+- [Instruction for use.pdf](https://github.com/GMCTS/GMCTS-for-Urban-Planning/blob/master/GMCTS-UrbanP%20Manual_En.pdf): how to run the software using the test data
 - Data: package data for tests and corresponding results
 - GMCTS.cpp: the main code of the G-MCTS for urban planning
 
