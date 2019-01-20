@@ -11,7 +11,7 @@ GMCTS::~GMCTS(void)
 {
 }
 
-void GMCTS::OnClickedButtonRun()
+void GMCTS::OnClickedButtonRun()//main function of GMCTS
 {
 	MTCLA_Init();
 	MTCLA_Purpers_Get();//get the goals as heuristics 
@@ -187,7 +187,7 @@ void GMCTS::OnClickedButtonRun()
 	}
 }
 	
-MTCLA::MTCLA(void)
+MTCLA::MTCLA(void)//main tree
 {
 	isLeaf_i=true;
 	isCut_i=false;
@@ -208,12 +208,12 @@ MTCLA::~MTCLA(void)
 {
 }
 	
-bool MTCLA::isLeaf() const //const不能改变类的常量
+bool MTCLA::isLeaf() const 
 {
 	return isLeaf_i;
 }
 
-int MTCLA::selectAction(int childNum_B) 
+int MTCLA::selectAction(int childNum_B) //selection
 	{
 		assert(isLeaf_i==false); 
 		int selected = 0;
@@ -239,7 +239,7 @@ int MTCLA::selectAction(int childNum_B)
 		return selected; 
 	} // selectAction
 
-void MTCLA::expand() 
+void MTCLA::expand() //expansion
 {
 	if (!isLeaf_i)
 		return;
@@ -283,7 +283,7 @@ void MTCLA::Value() const
 	AfxMessageBox(m_s);
 }
 
-int MTCLA:: bestAction(double* bv) //返回utc最大的那个值
+int MTCLA:: bestAction(double* bv) //evaluation
 { 
 	int selected = 0;
 	double bestValue = -(numeric_limits<double>::max)();
