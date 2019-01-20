@@ -53,28 +53,6 @@ void GMCTS::OnClickedButtonRun()//main function of GMCTS
 			action_step=MTCLA_action_step_finnal;
 			MTCLA_P_Once=MTCLA_P_finnal; 
 			MTCLA_Color_Once=MTCLA_Color_finnal; 
-			if((pCur->isLeaf()==true)&&(pCur->deep_i==pCur_tree_Branch->deep_i))//first expansion
-			{
-				pCur->expand();
-				MTCLA_Goal_Steps(goal_steps,deep);
-				MTCLA_P_i.resize(NBBROW_B);
-				MTCLA_Color_i.resize(NBBROW_B);
-				MTCLA_US_present_i.resize(NBBROW_B);
-				MTCLA_Goal_present_i.resize(NBBROW_B);
-				for (n=0;n<NBBROW_B;n++)
-				{	
-					MTCLA_US_present_i[n]=US_present;
-					MTCLA_Goal_present_i[n]=Goal_present;
-					MTCLA_Find_Move(n,US_P_Step,Goal_P_Step,MTCLA_P_Once,&MTCLA_P_i[n],&MTCLA_Color_i[n],&MTCLA_US_present_i[n],&MTCLA_Goal_present_i[n]);
-					MTCLA *pCur_C;
-					pCur_C=pCur->vpChildren_i[n];
-					pCur_C->deep_i=deep;
-					pCur_C->Point_i=MTCLA_P_i[n];
-					pCur_C->Color_i=MTCLA_Color_i[n];
-					pCur_C->US_present_i=MTCLA_US_present_i[n];
-					pCur_C->Goal_present_i=MTCLA_Goal_present_i[n];
-				}
-			}
 			while (pCur->isLeaf()==false) //sellection
 			{
 				action = pCur->selectAction(NBBROW_B);
@@ -105,6 +83,7 @@ void GMCTS::OnClickedButtonRun()//main function of GMCTS
 				{	
 					MTCLA_US_present_i[n]=US_present;
 					MTCLA_Goal_present_i[n]=Goal_present;
+					//expansion by the priorities of land cells and evaluate the goal-oriented values
 					MTCLA_Find_Move(n,US_P_Step,Goal_P_Step,MTCLA_P_Once,&MTCLA_P_i[n],&MTCLA_Color_i[n],&MTCLA_US_present_i[n],&MTCLA_Goal_present_i[n]);
 					MTCLA *pCur_C;
 					pCur_C=pCur->vpChildren_i[n];
@@ -149,7 +128,7 @@ void GMCTS::OnClickedButtonRun()//main function of GMCTS
 			Progreess_Per.SetWindowText(str_t);
 		}//for k
 		double best_v=0;
-		bestAction = tree_Branch.bestAction(&best_v);//best step action after a step's searching
+		bestAction = tree_Branch.bestAction(&best_v);//get the best step action after a step's searching
 		MTCLA_action_step_finnal.push_back(bestAction);
 		MTCLA_action_best_v_finnal.push_back(best_v);
 		MTCLA *pCur_B = &tree_Branch;
