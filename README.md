@@ -32,8 +32,6 @@ CPU: 4+ cores, 3.3+ GHz/core
 
 ## Software Requirements
 
-### OS Requirements
-
 This package is supported for *Windows* operating systems. 
 
 # Installation Guide
