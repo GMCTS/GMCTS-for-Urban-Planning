@@ -39,38 +39,29 @@ void GMCTS::OnClickedButtonRun()
 	double value_Step_max=0;
 	int i,k,n;
 	MTCLA tree;//main tree
-	MTCLA *pCur_tree_Branch = &tree;//
+	MTCLA *pCur_tree_Branch = &tree;//new subtree
 	stack <MTCLA *> visited;
-	for(i=0;i<site;i++)//ËùÓÐÓÃµØµ¥Ôª
+	for(i=0;i<site;i++)//the steps, 8 for example
 	{	
-		WaitForIdle_A();
-		//value_goal_oriented_max=0;
-		if(MTCLA_On==false) //¼ì²éÍ£Ö¹±êÖ¾
-			return;
 		MTCLA tree_Branch;
 		tree_Branch=*pCur_tree_Branch;
-		for(k=0; k<goal_time; k++)//Ã¿Ò»¸öÓÃµØµ¥ÔªµÄtime´Îµü´ú
+		for(k=0; k<goal_time; k++)//times in each steps
 		{
-			WaitForIdle_A();
-			if(MTCLA_On==false) //¼ì²éÍ£Ö¹±êÖ¾
-				return;
 			MTCLA *pCur = &tree_Branch;
-			visited.push(pCur);//Ê×´Î¶ÑÕ»£¬Ä¸Ê÷
+			visited.push(pCur);
 			action_step.clear();
-			action_step=MTCLA_action_step_finnal;//actionÏÎ½Ó
-			deep=pCur_tree_Branch->deep_i;//deepÏÎ½Ó
-			deep++;//Ã¿´Î¶ÑÕ»Éî¶È¼Ó1
+			action_step=MTCLA_action_step_finnal;
 			MTCLA_P_Once=MTCLA_P_finnal; 
 			MTCLA_Color_Once=MTCLA_Color_finnal; 
-			if((pCur->isLeaf()==true)&&(pCur->deep_i==pCur_tree_Branch->deep_i))//×îÔçÒ¶µãÎ¨Ò»Ò»´ÎÀ©Õ¹
+			if((pCur->isLeaf()==true)&&(pCur->deep_i==pCur_tree_Branch->deep_i))//first expansion
 			{
-				pCur->expand();//ÐÂ¸ù½ÚµãÀ©Õ¹,isLeaf_i=false;
-				MTCLA_Goal_Steps(goal_steps,deep);//»ùÓÚÏÖÔÚ×´¿öµÃµ½US_P_Step£¬Goal_P_Step
+				pCur->expand();
+				MTCLA_Goal_Steps(goal_steps,deep);
 				MTCLA_P_i.resize(NBBROW_B);
 				MTCLA_Color_i.resize(NBBROW_B);
 				MTCLA_US_present_i.resize(NBBROW_B);
 				MTCLA_Goal_present_i.resize(NBBROW_B);
-				for (n=0;n<NBBROW_B;n++)//Éî¶ÈÓëµãÎ»¸³Öµ
+				for (n=0;n<NBBROW_B;n++)
 				{	
 					MTCLA_US_present_i[n]=US_present;
 					MTCLA_Goal_present_i[n]=Goal_present;
@@ -84,10 +75,10 @@ void GMCTS::OnClickedButtonRun()
 					pCur_C->Goal_present_i=MTCLA_Goal_present_i[n];
 				}
 			}
-			while (pCur->isLeaf()==false) //Èç¹ûÊÇ¸ù½Úµã.ÏòÏÂÑ¡ÔñÇ°½øÖ±µ½Ò¶½Úµã
+			while (pCur->isLeaf()==false) //sellection
 			{
-				action = pCur->selectAction(NBBROW_B);//Ñ¡Ôñ×î´óÒ¶½Úµã
-				pCur = pCur->vpChildren_i[action];//Ò¶±ä¸ù
+				action = pCur->selectAction(NBBROW_B);
+				pCur = pCur->vpChildren_i[action];
 				if (pCur->isCut_i==true)
 				{
 					pCur->totValue_i=0;
@@ -102,17 +93,15 @@ void GMCTS::OnClickedButtonRun()
 				US_present=pCur->US_present_i;
 				Goal_present=pCur->Goal_present_i;
 			}
-			if (pCur->isCut_i==true)
-				continue;
-			if((pCur->isLeaf()==true)&&(pCur->nVisits_i==1))//Èç¹ûÊÇÒ¶½Úµã£¬´ïµ½Ò»´Î²ÅÀ©Õ¹
+			if((pCur->isLeaf()==true)&&(pCur->nVisits_i==1))//expansion
 			{
-				pCur->expand();//ÐÂ¸ù½ÚµãÀ©Õ¹,isLeaf_i=false;
-				MTCLA_Goal_Steps(goal_steps,deep);//»ùÓÚÏÖÔÚ×´¿öµÃµ½US_P_Step£¬Goal_P_Step
+				pCur->expand();//
+				MTCLA_Goal_Steps(goal_steps,deep);
 				MTCLA_P_i.resize(NBBROW_B);
 				MTCLA_Color_i.resize(NBBROW_B);
 				MTCLA_US_present_i.resize(NBBROW_B);
 				MTCLA_Goal_present_i.resize(NBBROW_B);
-				for (n=0;n<NBBROW_B;n++)//Éî¶ÈÓëµãÎ»¸³Öµ
+				for (n=0;n<NBBROW_B;n++)
 				{	
 					MTCLA_US_present_i[n]=US_present;
 					MTCLA_Goal_present_i[n]=Goal_present;
@@ -125,8 +114,8 @@ void GMCTS::OnClickedButtonRun()
 					pCur_C->US_present_i=MTCLA_US_present_i[n];
 					pCur_C->Goal_present_i=MTCLA_Goal_present_i[n];
 				}
-				action = pCur->selectAction(NBBROW_B);//ÐÂ¸ù½ÚµãÑ¡Ôñ×î´óÒ¶½Úµã
-				pCur = pCur->vpChildren_i[action];//Ò¶±ä¸ù
+				action = pCur->selectAction(NBBROW_B);//sellection
+				pCur = pCur->vpChildren_i[action];
 				action_step.push_back(action);
 				visited.push(pCur);
 				deep++;
@@ -135,52 +124,36 @@ void GMCTS::OnClickedButtonRun()
 				US_present=pCur->US_present_i;
 				Goal_present=pCur->Goal_present_i;
 			}
-			//value_goal_oriented=MTCLA_Value_Estamat(US_present,Goal_present);
-			MTCLA_Purpers_Main_Fastmove(MTCLA_P_Once,&US_present,&Goal_present);
+			MTCLA_Purpers_Main_Fastmove(MTCLA_P_Once,&US_present,&Goal_present);//get the rollout value
 			pCur->US_present_i_All=US_present;
 			pCur->Goal_present_i_All=Goal_present;
-			value=MTCLA_Value_Estamat(US_present,Goal_present);//¼ÛÖµ¼ÆËã£¬¹Ø¼ü£¡
-			if (value>=value_max)//¼ÇÂ¼×î´óÖµÔö¼ÓµÄÇé¿ö
+			value=MTCLA_Value_Estamat(US_present,Goal_present);//evaluation=goal+rollout
+			if (value>=value_max)
 			{
 				MTCLA_P_Picture=MTCLA_P_Once;
 				MTCLA_Color_Picture=MTCLA_Color_Once;
 				MTCLA_US_Picture=pCur->US_present_i;
 				MTCLA_Goal_Picture=pCur->Goal_present_i;
-				//value_goal_oriented=MTCLA_Value_Estamat(MTCLA_US_Picture,MTCLA_Goal_Picture);
 				value_goal_oriented=MTCLA_Value_Estamat(pCur->US_present_i,pCur->Goal_present_i);
 				if (value_goal_oriented>value_goal_oriented_max)
 					value_goal_oriented_max=value_goal_oriented;
-				if (value>value_max)
-				{
-					if (deep_max<(deep+1))//¼ÇÂ¼×î´óÉî¶È
-						deep_max=deep+1;
-					if (deep_max_step<(i+1))//¼ÇÂ¼×î´óÉî¶È
-						deep_max_step=i+1;
-
-				}
-				value_max=value;
-			}
-			//if (value<10)
-			//	pCur->isCut_i=true;
-			if (deep_max_deep1<(deep+1) && i==0)//¼ÇÂ¼×î´óÉî¶È
-				deep_max_deep1=deep+1;	
-			while (!visited.empty()) //·´Ïò´«²¥
+			while (!visited.empty()) 
 			{
 				pCur = visited.top();// get the current node in the path
-				pCur->updateStats(value,value_goal_oriented);   // update statisticsÎªÊ²Ã´ÊÇ+Ëæ»úÊý
+				pCur->updateStats(value,value_goal_oriented);   // update statistics
 				visited.pop();// remove the current node from the stack
 			}
 			Per_t=100*(i*goal_time+k)/(site*goal_time);
-			MTCLA_Esplise2 = ::GetTickCount() - MTCLA_Esplise1;//²îÖµ=ÏÖÔÚ¼ÆÊ±Æ÷-Ô­ÓÐ¼ÆÊ±Æ÷
+			MTCLA_Esplise2 = ::GetTickCount() - MTCLA_Esplise1;/
 			str_t.Format("Step %d/%d,  number %d/%d,  %d s ,  %.0f%s ;",i+1,goal_steps,k+1,goal_time,MTCLA_Esplise2/1000,Per_t,"%");
 			Progreess_Per.SetWindowText(str_t);
 		}//for k
 		double best_v=0;
-		bestAction = tree_Branch.bestAction(&best_v);//¼ÆËãµ¥²½×î¼Ñ
+		bestAction = tree_Branch.bestAction(&best_v);//best step action after a step's searching
 		MTCLA_action_step_finnal.push_back(bestAction);
 		MTCLA_action_best_v_finnal.push_back(best_v);
 		MTCLA *pCur_B = &tree_Branch;
-		pCur_B = pCur_B->vpChildren_i[bestAction];//Ò¶±ä¸ù
+		pCur_B = pCur_B->vpChildren_i[bestAction];
 		MTCLA_P_finnal.push_back(pCur_B->Point_i);
 		MTCLA_Color_finnal.push_back(pCur_B->Color_i);
 		for (k=0;k<(pCur_B->Point_i.size());k++)
@@ -194,42 +167,138 @@ void GMCTS::OnClickedButtonRun()
 		Goal_present=pCur_B->Goal_present_i;
 		MTCLA_US_present_Picture.push_back(pCur_B->US_present_i);
 		MTCLA_Goal_present_Picture.push_back(pCur_B->Goal_present_i);	
-		MTCLA_value_Goal_oriented.push_back(value_goal_oriented_max);//¼ÛÖµ¼ÆËã£¬¹Ø¼ü£¡	//ÐÂ
+		MTCLA_value_Goal_oriented.push_back(value_goal_oriented_max);
 		if (value_Step_max<MTCLA_Value_Estamat(US_present,Goal_present))
 			value_Step_max=MTCLA_Value_Estamat(US_present,Goal_present);
-		MTCLA_value_Step.push_back(value_Step_max);//¼ÛÖµ¼ÆËã£¬¹Ø¼ü£¡	//ÐÂ
-		/////////////////////////////////////////////////////////
-		*pCur_tree_Branch=tree_Branch;//Ã¿Ò»¸öÓÃµØµ¥ÔªµÄtime´Îµü´ú¡ª¡ª»¹Ô­ÖÁÄ¸Ê÷
-		pCur_tree_Branch = pCur_tree_Branch->vpChildren_i[bestAction];//Ñ¡ÔñÄ¸Ê÷µÄÏÂÒ»²ã·ÖÖ§
+		MTCLA_value_Step.push_back(value_Step_max);
+		*pCur_tree_Branch=tree_Branch;//the subtree result added back to main tree
+		pCur_tree_Branch = pCur_tree_Branch->vpChildren_i[bestAction];//select the next layer as the new subtree
 		Progress.SetPos(i);
-		//È±ÉÙ´ï±êÍ£Ö¹º¯Êý£¡£¡£¡
 	}//for int i
-	KillTimer(MTCLA_Timer1);//É¾³ý¼ÆÊ±Æ÷
-	MTCLA_Esplise2 = ::GetTickCount() - MTCLA_Esplise1;//²îÖµ=ÏÖÔÚ¼ÆÊ±Æ÷-Ô­ÓÐ¼ÆÊ±Æ÷
-	Per_t=100;
-	str_t.Format("Step %d/%d,  number %d/%d,  %d s ,  %.0f%s ;",goal_steps,goal_steps,goal_time,goal_time,MTCLA_Esplise2/1000,Per_t,"%");
-	Progreess_Per.SetWindowText(str_t);
-	EndWaitCursor();
-	WaitForIdle_A();
-	if(MTCLA_On==false) //¼ì²éÍ£Ö¹±êÖ¾
-		return;
-	MTCLA_Save_All_Picture=true;
-	if (MTCLA_Save_All_Picture==true)
+	if (MTCLA_Save_All_Picture==true)//show the results
 	{
-		MTCLA_OnImageSave();//»ñÈ¡Â·¾¶
-		MTCLA_Purpers_Show(MTCLA_P_Once_Cell_Oriented,MTCLA_Color_Once_Cell_Oriented);	//Êä³öÔ­Ê¼£¬cellÍ¼Ïñ
-		MTCLA_Purpers_Show_Finnal(MTCLA_P_Picture,MTCLA_Color_Picture,&MTCLA_US_Picture,&MTCLA_Goal_Picture,&value);	//Êä³ö¿ìËÙ²¼¾ÖÍ¼Ïñ
-		MTCLA_Purpers_Show_Text(value);	//Êä³öÎÄ±¾
+		MTCLA_OnImageSave()
+		MTCLA_Purpers_Show(MTCLA_P_Once_Cell_Oriented,MTCLA_Color_Once_Cell_Oriented);
+		MTCLA_Purpers_Show_Finnal(MTCLA_P_Picture,MTCLA_Color_Picture,&MTCLA_US_Picture,&MTCLA_Goal_Picture,&value);
+		MTCLA_Purpers_Show_Text(value);	
 		CString m_s;
 		m_s.Format("Degree of satisfying the Goals(0-1):%.2f", value);
 		AfxMessageBox(m_s);
 	}
-	//MTCLA_Purpers_Show(MTCLA_P_finnal,MTCLA_Color_finnal);	//Êä³öÍ¼Ïñ,µ¹ÊýµÚ¶þÕÅ,ÔÝÊ±ÓÃ²»µ½
-	MTCLA_On=false;
-	Button_Enable();
-	OnClickedButton_Up();
-	MTCLA_Play=true;
-	((CButton* )GetDlgItem(IDC_BUTTON_MTCL_PLAY))->EnableWindow(true);
-	((CButton* )GetDlgItem(IDC_BUTTON_MTCL_STOP))->EnableWindow(false);
-
 }
+	
+MTCLA::MTCLA(void)
+{
+	isLeaf_i=true;
+	isCut_i=false;
+	nVisits_i=0;
+	totValue_i=0;
+	eveValue_i=0;
+	goalValue_i=0;
+	childNum=NBBROW_A;////////////////////////////////////////////////////////////
+	deep_i=0;
+	Value_Pre=0;
+	for (int k = 0; k < childNum; ++k)
+	{
+		vpChildren_i[k] = 0;
+	}
+}
+
+MTCLA::~MTCLA(void)
+{
+}
+	
+bool MTCLA::isLeaf() const //constä¸èƒ½æ”¹å˜ç±»çš„å¸¸é‡
+{
+	return isLeaf_i;
+}
+
+int MTCLA::selectAction(int childNum_B) 
+	{
+		assert(isLeaf_i==false); 
+		int selected = 0;
+		double bestValue;
+		bestValue= -(numeric_limits<double>::max)();
+		double uctValue ;
+		for (int k = 0; k < childNum_B; ++k)
+		{
+			MTCLA *pCur = vpChildren_i[k];
+			//assert(0 != pCur); 
+			if (pCur->nVisits_i==0)
+				uctValue=(numeric_limits<double>::max)();
+			else if (pCur->nVisits_i>0)
+			{
+				uctValue = pCur->totValue_i / (pCur->nVisits_i + EPSILON_A) + 0.4*sqrt(log(nVisits_i) / (pCur->nVisits_i + EPSILON_A));
+			}
+			if (uctValue >bestValue)
+			{
+				selected = k;
+				bestValue = uctValue;
+			}
+		} // for loop
+		return selected; 
+	} // selectAction
+
+void MTCLA::expand() 
+{
+	if (!isLeaf_i)
+		return;
+	//isLeaf_i = false;
+	for (int k = 0; k < childNum; ++k)
+		vpChildren_i[k] = new MTCLA();
+	isLeaf_i=false;
+	
+} // expand
+
+
+void  MTCLA::updateStats(double value,double gvalue)
+{
+	nVisits_i++;  // increment the number of visits
+	if (nVisits_i==1)
+	{
+		if (value>0)
+		{
+			totValue_i = value; // update the total value for all visits
+			goalValue_i=gvalue;
+		}
+	}
+	else
+	{
+		if (value>(totValue_i/(nVisits_i-1)))
+		{
+			totValue_i = value*nVisits_i; // update the total value for all visits
+			goalValue_i=gvalue;
+		}
+		else
+			totValue_i=(totValue_i/(nVisits_i-1))*nVisits_i;
+
+	}
+	eveValue_i=totValue_i/nVisits_i;
+}
+
+void MTCLA::Value() const 
+{
+	CString m_s;
+	m_s.Format("%lf,  %lf ",totValue_i  ,nVisits_i );
+	AfxMessageBox(m_s);
+}
+
+int MTCLA:: bestAction(double* bv) //è¿”å›žutcæœ€å¤§çš„é‚£ä¸ªå€¼
+{ 
+	int selected = 0;
+	double bestValue = -(numeric_limits<double>::max)();
+	for (int k = 0; k < childNum; ++k) 
+	{
+		MTCLA *pCur = vpChildren_i[k]; // ptr to current child node
+		assert(0 != pCur);
+		double expValue = pCur->totValue_i / (pCur->nVisits_i + EPSILON_A);
+		expValue += static_cast<double>(rand()) * EPSILON_A / RAND_MAX;
+		if (expValue >= bestValue) 
+		{
+			selected = k;
+			bestValue = expValue;
+		}
+	} // for loop
+	* bv=bestValue;
+	return selected;
+} // bestAction
