@@ -19,7 +19,7 @@ The development of an artificial intelligence agent with the ability to integrat
 - Data: package data for tests and corresponding results
 - DL1.cpp: the main code of the G-MCTS for urban planning
 
-The "StepGoal.exe" "Instruction for use.pdf" and "Data" can be downloaded for reproduction of our research. The DL1 can be downloaded as a main framework or a search function for further research.
+The "GMCTS-UrbanP.exe" "Instruction for use.pdf" and "Data" can be downloaded for reproduction of our research. The DL1 can be downloaded as a main framework or a search function for further research.
 
 # System Requirements
 
